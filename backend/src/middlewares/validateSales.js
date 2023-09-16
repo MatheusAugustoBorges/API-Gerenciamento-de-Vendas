@@ -10,12 +10,11 @@ const validateSalesProduct = async (request, response, next) => {
     // dados em comparação com o productId requisição, isto é, 
     // se o produto que será vendido existe no banco de dados
     const productListDb = await productsModel.findAllProductsModel();
-    console.log(productListDb);
     const productIdExistForSale = newSale
       .every((sale) => productListDb
       .some((product) => product.id === sale.productId));
-    if (productIdExistForSale) {
-      return response.status(400).json({ message: 'Product not found' });
+    if (!productIdExistForSale) {
+      return response.status(404).json({ message: 'Product not found' });
     }
     next();
 };
