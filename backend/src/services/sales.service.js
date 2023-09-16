@@ -12,7 +12,13 @@ const findSaleByIdService = async (saleId) => {
   return sale;
 };
 
+const createSaleProductService = async (dataSale) => {
+  const newSaleProduct = await salesModel.createSalesProductModel(dataSale);
+  return newSaleProduct;
+};
+
 module.exports = {
   findAllSalesService,
   findSaleByIdService,
+  createSaleProductService,
 };

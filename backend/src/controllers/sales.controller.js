@@ -13,7 +13,14 @@ const findSalesByIdController = async (request, response) => {
   return response.status(200).json(sale);
 };
 
+const createSaleProductController = async (request, response) => {
+  const { body } = request;
+  const newSaleProduct = await salesService.createSaleProductService(body);
+  return response.status(201).json(newSaleProduct);
+};
+
 module.exports = {
-    findAllSalesController,
-    findSalesByIdController,
+  findAllSalesController,
+  findSalesByIdController,
+  createSaleProductController,
 };

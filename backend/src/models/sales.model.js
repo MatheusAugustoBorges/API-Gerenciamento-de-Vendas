@@ -28,7 +28,28 @@ ORDER BY sp.sale_id ASC, sp.product_id ASC;`, [saleId]);
   return sale;
 };
 
+const createSaleModel = async () => {
+  const [newDateSale] = await connection.execute(
+    'INSERT INTO sales (date) VALUES (now())',
+  );
+  // Recupera o id da venda criada => newDateSale.insertId
+  return newDateSale;
+};
+
+const createSalesProductModel = async (dataSale) => {
+  const { insertId } = await createSaleModel();
+  dataSale.map(async (sale) => {
+    await connection.execute(
+      'INSERT INTO sales_products (sale_id, product_id, quantity) VALUES (?, ?, ?)',
+        [insertId, sale.productId, sale.quantity],
+    );
+  });
+  return { id: insertId, itemsSold: dataSale };
+};
+
 module.exports = {
   findAllSalesModel,
   findSaleByIdModel,
+  createSaleModel,
+  createSalesProductModel,
 };
