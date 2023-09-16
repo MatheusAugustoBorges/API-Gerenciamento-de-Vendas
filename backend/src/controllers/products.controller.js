@@ -13,7 +13,14 @@ const findProductByIdController = async (request, response) => {
   return response.status(200).json(product);
 };
 
+const createProductController = async (request, response) => {
+  const { name } = request.body;
+  const product = await productsService.createProductService(name);
+  return response.status(201).json({ id: product.insertId, name });
+};
+
 module.exports = {
   findAllProductsController,
   findProductByIdController,
+  createProductController,
 };
