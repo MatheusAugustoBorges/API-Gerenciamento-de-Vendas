@@ -16,6 +16,7 @@ const findProductByIdController = async (request, response) => {
 const createProductController = async (request, response) => {
   const { name } = request.body;
   const product = await productsService.createProductService(name);
+  // Coleta o id atualizado que veio no product (direto do database)
   return response.status(201).json({ id: product.insertId, name });
 };
 
