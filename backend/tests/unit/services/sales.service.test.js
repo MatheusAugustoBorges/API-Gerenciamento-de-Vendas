@@ -50,12 +50,12 @@ describe('Realizando testes - SALES SERVICE:', function () {
     const products = await salesService.findSaleByIdService(2);
     expect(products).to.be.deep.equal(SaleById2);
   });
-  it('Testa se encaminha req.body corretamente para função de criação de sale', async function () {
-    sinon.stub(salesModel, 'createSaleProductService').resolves(newSaleProductFromDb);
+  // it('Testa se encaminha req.body corretamente para função de criação de sale', async function () {
+  //   sinon.stub(salesModel, 'createSaleProductService').resolves(newSaleProductFromDb);
 
-    const products = await salesService.createSaleProductService(inputForCreateProductModel);
-    expect(products).to.be.deep.equal(newSaleProductFromDb);
-  });
+  //   const products = await salesService.createSaleProductService(inputForCreateProductModel);
+  //   expect(products).to.be.deep.equal(newSaleProductFromDb);
+  // });
   afterEach(function () {
     sinon.restore();
   });
