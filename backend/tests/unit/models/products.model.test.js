@@ -17,7 +17,7 @@ describe('Realizando testes - PRODUCTS MODEL:', function () {
   it('Recuperando um product por um id', async function () {
     sinon.stub(connection, 'execute').resolves([ProductById]);
 
-    const products = await productsModel.findAllProductsModel();
+    const products = await productsModel.findProductByIdModel();
     expect(products).to.be.an('array');
     expect(products).to.have.lengthOf(1);
     expect(products).to.be.deep.equal(ProductById);

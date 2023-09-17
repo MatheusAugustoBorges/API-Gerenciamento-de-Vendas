@@ -41,9 +41,46 @@ const SaleById2 = [
     quantity: 15,
   },
 ];
-  
-  module.exports = {
-    allSales,
-    SaleById1,
-    SaleById2,
-  };
+
+const newSaleFromDb = {
+  fieldCount: 0,
+  affectedRows: 1,
+  insertId: 4,
+  info: '',
+  serverStatus: 2,
+  warningStatus: 0,
+};
+
+const newSaleProductFromDb = {
+  id: 4,
+  itemsSold: [
+    {
+      productId: 1,
+      quantity: 1,
+    },
+    {
+      productId: 2,
+      quantity: 5,
+    },
+  ],
+};
+
+const inputForCreateProductModel = [
+  {
+    productId: 1,
+    quantity: 1,
+  },
+  {
+    productId: 2,
+    quantity: 5,
+  },
+];
+
+module.exports = {
+  allSales,
+  SaleById1,
+  SaleById2,
+  newSaleFromDb,
+  newSaleProductFromDb,
+  inputForCreateProductModel,
+};

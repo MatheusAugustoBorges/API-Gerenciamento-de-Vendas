@@ -3,7 +3,7 @@ const sinon = require('sinon');
 // const connection = require('../../../src/models/connection');
 const { salesModel } = require('../../../src/models');
 const { salesService } = require('../../../src/services');
-const { allSales, SaleById2 } = require('../mocks/salesFromModel');
+const { allSales, SaleById2, inputForCreateProductModel, newSaleProductFromDb } = require('../mocks/salesFromModel');
 
 // describe('Realizando testes - PRODUCTS SERVICE:', function () {
 //   it('Testa array de produtos vazio', async function () {
@@ -49,6 +49,12 @@ describe('Realizando testes - SALES SERVICE:', function () {
 
     const products = await salesService.findSaleByIdService(2);
     expect(products).to.be.deep.equal(SaleById2);
+  });
+  it('Testa se encaminha req.body corretamente para função de criação de sale', async function () {
+    sinon.stub(salesModel, 'createSaleProductService').resolves(newSaleProductFromDb);
+
+    const products = await salesService.createSaleProductService(inputForCreateProductModel);
+    expect(products).to.be.deep.equal(newSaleProductFromDb);
   });
   afterEach(function () {
     sinon.restore();

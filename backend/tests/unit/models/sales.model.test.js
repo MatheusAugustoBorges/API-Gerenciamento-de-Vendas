@@ -2,7 +2,7 @@ const { expect } = require('chai');
 const sinon = require('sinon');
 const connection = require('../../../src/models/connection');
 const { salesModel } = require('../../../src/models');
-const { allSales, SaleById1, SaleById2 } = require('../mocks/salesFromModel');
+const { allSales, SaleById1, SaleById2, newSaleFromDb, newSaleProductFromDb, inputForCreateProductModel } = require('../mocks/salesFromModel');
 
 describe('Realizando testes - SALES MODEL:', function () {
   it('Recuperando sales com sucesso', async function () {
@@ -30,6 +30,22 @@ describe('Realizando testes - SALES MODEL:', function () {
     expect(sale).to.be.an('array');
     expect(sale).to.have.lengthOf(2);
     expect(sale).to.be.deep.equal(SaleById1);
+  });
+
+  it('Inserindo um novo sale no banco de dados para acessar o novo ID', async function () {
+    sinon.stub(connection, 'execute').resolves([newSaleFromDb]);
+
+    const newSaleProductFromDbTest = await salesModel.createSaleModel();
+    expect(newSaleProductFromDbTest).to.be.an('object');
+    expect(newSaleProductFromDbTest).to.be.deep.equal(newSaleFromDb);
+  });
+
+  it('Inserindo um novo sale no banco de dados', async function () {
+    sinon.stub(connection, 'execute').resolves([newSaleFromDb]);
+
+    const newSaleProductFromDbTest = await salesModel.createSalesProductModel(inputForCreateProductModel);
+    expect(newSaleProductFromDbTest).to.be.an('object');
+    expect(newSaleProductFromDbTest).to.be.deep.equal(newSaleProductFromDb);
   });
 
   afterEach(function () {
