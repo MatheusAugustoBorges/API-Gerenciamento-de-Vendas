@@ -6,7 +6,7 @@ const { expect } = chai;
 chai.use(sinonChai);
 
 const { validateSalesProduct } = require('../../../src/middlewares/validateSales');
-const { inputForCreateProductModel } = require('../mocks/salesFromModel');
+// const { inputForCreateProductModel } = require('../mocks/salesFromModel');
 
 describe('Validando dados de vendas - MIDDLEWARE SALES:', function () {
   afterEach(sinon.restore);
