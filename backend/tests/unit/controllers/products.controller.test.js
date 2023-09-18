@@ -1,31 +1,87 @@
-// const chai = require('chai');
-// const sinon = require('sinon');
-// const sinonChai = require('sinon-chai');
+const chai = require('chai');
+const sinon = require('sinon');
+const sinonChai = require('sinon-chai');
 
-// const { expect } = chai;
-// chai.use(sinonChai);
+const { expect } = chai;
+chai.use(sinonChai);
 
-// const { productsService } = require('../../../src/services');
-// const { productsController } = require('../../../src/controllers');
-// const { insertionProductResponse } = require('../mocks/productsFromController');
+const { productsService } = require('../../../src/services');
+const { productsController } = require('../../../src/controllers');
+const { allProducts, ProductById } = require('../mocks/productsFromModel');
 
-// describe('Realizando testes - PRODUCT CONTROLLER:', function () {
-//   it('Inserindo product com sucesso - status 201', async function () {
-//     sinon.stub(productsService, 'createProductService').resolves(insertionProductResponse);
-//     // const request = {
-//     //   body: { name: 'Couraça da Justiça' },
-//     // };
-//     // const response = {
-//     //   status: sinon.stub().returnsThis(),
-//     //   json: sinon.stub(),
-//     // };
+describe('Realizando testes - PRODUCT CONTROLLER:', function () {
+  afterEach(sinon.restore);
+  const message = 'Product not found';
+  it('Não listar os produtos quando forem inexistentes', async function () {
+    const request = {};
+    const response = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.stub(),
+    };
+    sinon.stub(productsService, 'findAllProductsService').resolves({ message });
+
+    await productsController.findAllProductsController(request, response);
+
+    expect(response.status).to.have.been.calledWith(404);
+    expect(response.json).to.have.been.calledWith({ message });
+  });
+
+  it('Listar todos os produtos', async function () {
+    const request = {};
+    const response = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.stub(),
+    };
+    sinon.stub(productsService, 'findAllProductsService').resolves(allProducts);
+
+    await productsController.findAllProductsController(request, response);
+
+    expect(response.status).to.have.been.calledWith(200);
+    expect(response.json).to.have.been.calledWith(allProducts);
+  });
+
+  it('Não listar o produto buscado por ID quando for inexistente', async function () {
+    const request = { params: { id: 99 } };
+    const response = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.stub(),
+    };
+    sinon.stub(productsService, 'findAllProductsService').resolves({ message });
+
+    await productsController.findAllProductsController(request, response);
+
+    expect(response.status).to.have.been.calledWith(404);
+    expect(response.json).to.have.been.calledWith({ message });
+  });
+
+  it('Listar o produto buscado por ID quando for existente', async function () {
+    const request = {};
+    const response = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.stub(),
+    };
+    sinon.stub(productsService, 'findAllProductsService').resolves(ProductById);
+
+    await productsController.findAllProductsController(request, response);
+
+    expect(response.status).to.have.been.calledWith(200);
+    expect(response.json).to.have.been.calledWith(ProductById);
+  });
+
+  it('Verifica se o produto é criado', async function () {
+    const request = { 
+      body: { name: 'ProductX' } 
+    };
+    const response = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.stub(),
+    };
     
-//     const response = await productsController.createProductController();
-//     expect(response.status).to.have.been.calledWith(201);
-//     expect(response.json).to.have.been.calledWith(insertionProductResponse);
-//   });
+    sinon.stub(productsService, 'createProductService').resolves('ProductX');
 
-//   afterEach(function () {
-//     sinon.restore();
-//   });
-// });
+    const product = await productsController.createProductController(request, response);
+
+    expect(response.status).to.have.been.calledWith(201);
+    expect(response.json).to.have.been.calledWith({ id: product.insertId, name: 'ProductX' });
+  });
+});
