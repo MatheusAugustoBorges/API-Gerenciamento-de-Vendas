@@ -70,18 +70,25 @@ describe('Realizando testes - PRODUCT CONTROLLER:', function () {
 
   it('Verifica se o produto é criado', async function () {
     const request = { 
-      body: { name: 'ProductX' } 
+      body: { name: 'Couraça da Justiça' },
     };
     const response = {
       status: sinon.stub().returnsThis(),
       json: sinon.stub(),
     };
     
-    sinon.stub(productsService, 'createProductService').resolves('ProductX');
+    sinon.stub(productsService, 'createProductService').resolves({
+        fieldCount: 0,
+        affectedRows: 1,
+        insertId: 4,
+        info: '',
+        serverStatus: 2,
+        warningStatus: 0,
+      });
 
-    const product = await productsController.createProductController(request, response);
+    await productsController.createProductController(request, response);
 
     expect(response.status).to.have.been.calledWith(201);
-    expect(response.json).to.have.been.calledWith({ id: product.insertId, name: 'ProductX' });
+    expect(response.json).to.have.been.calledWithExactly({ id: 4, name: 'Couraça da Justiça' });
   });
 });

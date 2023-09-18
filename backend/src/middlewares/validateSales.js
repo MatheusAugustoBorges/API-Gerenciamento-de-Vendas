@@ -2,6 +2,7 @@ const { productsModel } = require('../models');
 
 const validateSalesProduct = async (request, response, next) => {
     const newSale = request.body;
+    console.log(newSale);
     const productIdExist = newSale.some((sale) => !sale.productId);
     if (productIdExist) {
       return response.status(400).json({ message: '"productId" is required' });
