@@ -62,6 +62,30 @@ describe('Realizando testes - PRODUCTS SERVICE:', function () {
     const products = await productsService.createProductService('abc');
     expect(products).to.be.deep.equal({ message: '"name" length must be at least 5 characters long' });
   });
+  it('Testa atualização de produto inexistente', async function () {
+    sinon.stub(productsModel, 'updateProductModel').resolves([]);
+
+    const products = await productsService.updateProductService(99);
+    expect(products).to.be.deep.equal({ message: 'Product not found' });
+  });
+  // it('Testa atualização de produto existente', async function () {
+  //   sinon.stub(productsModel, 'updateProductModel').resolves(ProductListUpdated);
+
+  //   const products = await productsService.updateProductService(1, 'Alicate do Superman');
+  //   expect(products).to.be.deep.equal(ProductListUpdated);
+  // });
+  it('Testa exclusão de produto inexistente', async function () {
+    sinon.stub(productsModel, 'deleteProductModel').resolves([]);
+
+    const products = await productsService.deleteProductService(99);
+    expect(products).to.be.deep.equal({ message: 'Product not found' });
+  });
+  // it('Testa exclusão de produto existente', async function () {
+  //   sinon.stub(productsModel, 'deleteProductModel').resolves(ProductListDeleted);
+
+  //   const products = await productsService.deleteProductService(1);
+  //   expect(products).to.be.deep.equal(ProductListDeleted);
+  // });
   afterEach(function () {
     sinon.restore();
   });

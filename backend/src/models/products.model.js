@@ -28,11 +28,19 @@ const updateProductModel = async (id, name) => {
   return productUpdated;
 };
 
-console.log(updateProductModel(1, 'martelo do batman'));
+const deleteProductModel = async (id) => {
+  const [productDeleted] = await connection.execute(
+    `DELETE FROM products
+    WHERE id = ?`,
+    [id],
+  );
+  return productDeleted;
+};
 
 module.exports = {
   findAllProductsModel,
   findProductByIdModel,
   createProductModel,
   updateProductModel,
+  deleteProductModel,
 };
