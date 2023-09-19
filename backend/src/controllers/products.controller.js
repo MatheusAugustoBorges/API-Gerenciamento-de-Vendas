@@ -20,8 +20,17 @@ const createProductController = async (request, response) => {
   return response.status(201).json({ id: product.insertId, name });
 };
 
+const updateProductController = async (request, response) => {
+  const { id } = request.params;
+  const { name } = request.body;
+  const product = await productsService.updateProductService(id, name);
+  if (product.message) return response.status(404).json(product);
+  return response.status(200).json({ id: Number(id), name });
+};
+
 module.exports = {
   findAllProductsController,
   findProductByIdController,
   createProductController,
+  updateProductController,
 };

@@ -17,8 +17,17 @@ const createProductService = async (nameProduct) => {
   return product;
 };
 
+const updateProductService = async (id, name) => {
+  const productUpdated = await productsModel.updateProductModel(id, name);
+  const productsList = await productsModel.findAllProductsModel();
+  const idExists = productsList.some((product) => product.id === Number(id));
+  if (!idExists) return { message: 'Product not found' };
+  return productUpdated;
+};
+
 module.exports = {
   findAllProductsService,
   findProductByIdService,
   createProductService,
+  updateProductService,
 };
